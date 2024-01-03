@@ -1,0 +1,93 @@
+<body>
+  <div class="row">
+    <div class = "column-left">
+      <form>
+        <div>Filter transactions by:</div>
+        <div>
+          Year
+          <input type="text" placeholder="'2024'" name="search-year" [(ngModel)]="filterYear">
+        </div>
+        <div>
+          Month
+          <input type="text" placeholder="'1','12'" name="search-month" [(ngModel)]="filterMonth">
+        </div>
+        <div>
+          <button (click)="SearchItem()">Filter transactions</button>
+        </div>
+        <div>
+          <button (click)="updateDisplayTransactions()">Show all transactions</button>
+        </div>
+        <div>
+          <button (click)="openAddModal()">Add new transaction</button>    
+        </div>
+      </form>
+    </div>
+
+    <div class = "column-right">
+      <div class = "transactions" *ngFor="let transaction of diplayedTransactions">
+        <div class="transaction">
+          <div class="transaction-detail-left">
+            <div class="amount">Amount: ${{transaction.amount}}</div>
+            <div class="description">Description: {{transaction.description}}</div>
+          </div>
+          <div class="transaction-detail-right">
+            <div class="transaction-action">
+              <button (click)="openEditModal(transaction)">Edit transaction</button>
+              <button (click)="deleteItem(transaction.id)">Delete transaction</button>
+            </div>
+            <div class="transaction-datetime">
+                <div class="time">Time: {{transaction.date.slice(11,16)}}</div> 
+                <div class="date">Date: {{transaction.date.slice(0,10)}}</div>         
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+<!-- Add Modal -->
+<div id="addModal" class="modal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <span class="modal-title">Add new transaction</span>
+      <span class="modal-close" (click)="closeAddModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div>Amount:</div>
+        <input type="text" name="input-amount" placeholder="Amount" [(ngModel)]="addAmountValue">
+        <div>Date:</div>
+        <input type="datetime-local" name="input-date" [(ngModel)]="addTransactionDate">
+        <div>Description:</div>
+        <input type="text" name="input-description" placeholder="Description" [(ngModel)]="addDescriptionValue">  
+        <div class="modal-btn-container">
+          <button (click)="addItem()">Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal">
+  <div class="modal-container">
+    <div class="modal-header">
+      <span class="modal-title">Edit Transaction: {{editTransaction.description}}</span>
+      <span class="modal-close" (click)="closeEditModal()">&times;</span>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div>Amount:</div>
+        <input type="text" name="edit-amount" placeholder="Amount" [(ngModel)]="editAmountValue">
+        <div>Date:</div>
+        <input type="datetime-local" name="edit-date" [(ngModel)]="editTransactionDate">
+        <div>Description:</div>
+        <input type="text" name="edit-description" placeholder="Description" [(ngModel)]="editDescriptionValue">  
+        <div class="modal-btn-container">
+          <button (click)="editItem()">Confirm Edit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
